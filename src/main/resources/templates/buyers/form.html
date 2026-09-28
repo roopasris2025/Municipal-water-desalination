@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Mineral Buyer Form')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('buyers')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0" th:text="${buyer.id == null} ? 'Add Buyer' : 'Edit Buyer'">Add</h4>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/buyers/save}" th:object="${buyer}" method="post" class="card form-card border-0 p-4 p-md-5" style="max-width: 640px;">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label class="form-label">Buyer Name</label>
+                    <input type="text" class="form-control" th:field="*{buyerName}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contact Person</label>
+                    <input type="text" class="form-control" th:field="*{contactPerson}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control" th:field="*{phone}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" th:field="*{email}">
+                </div>
+                                <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/buyers}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

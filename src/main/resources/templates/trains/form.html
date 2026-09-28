@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('RO Train Form')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('trains')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0" th:text="${train.id == null} ? 'Add RO Train' : 'Edit RO Train'">Add</h4>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/trains/save}" th:object="${train}" method="post" class="card form-card border-0 p-4 p-md-5" style="max-width: 640px;">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label class="form-label">Train Name</label>
+                    <input type="text" class="form-control" th:field="*{trainName}" required placeholder="RO Train 1">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Capacity Per Day (m3)</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{capacityPerDay}" placeholder="10000">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" th:field="*{status}">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="MAINTENANCE">MAINTENANCE</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Membrane Pressure Limit (bar)</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{membranePressureLimit}" placeholder="60">
+                </div>
+                                <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/trains}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

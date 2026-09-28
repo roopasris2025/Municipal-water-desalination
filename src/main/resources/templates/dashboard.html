@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Dashboard')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('dashboard')"></div>
+
+    <div class="flex-grow-1">
+        <div class="topbar p-3 d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0">Dashboard</h4>
+                <div class="text-muted small">Plant performance overview</div>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <!-- KPI cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4 col-lg-2">
+                    <div class="card stat-card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="stat-label">Water Produced (m3)</div>
+                            <i class="bi bi-droplet-half text-info"></i>
+                        </div>
+                        <div class="stat-value" th:text="${#numbers.formatDecimal(totalWaterProduced, 1, 2)}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card stat-card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="stat-label">Water Sold (m3)</div>
+                            <i class="bi bi-cart-check text-info"></i>
+                        </div>
+                        <div class="stat-value" th:text="${#numbers.formatDecimal(totalWaterSold, 1, 2)}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card stat-card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="stat-label">Mineral Recovered (kg)</div>
+                            <i class="bi bi-gem text-info"></i>
+                        </div>
+                        <div class="stat-value" th:text="${#numbers.formatDecimal(totalMineralRecovered, 1, 2)}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card stat-card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="stat-label">Total Revenue (Rs.)</div>
+                            <i class="bi bi-graph-up-arrow text-success"></i>
+                        </div>
+                        <div class="stat-value text-success" th:text="${#numbers.formatDecimal(totalRevenue, 1, 2)}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card stat-card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="stat-label">Total Expenses (Rs.)</div>
+                            <i class="bi bi-graph-down-arrow text-danger"></i>
+                        </div>
+                        <div class="stat-value text-danger" th:text="${#numbers.formatDecimal(totalExpenses, 1, 2)}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card stat-card p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="stat-label">Budget Used</div>
+                            <i class="bi bi-piggy-bank text-warning"></i>
+                        </div>
+                        <div class="stat-value" th:text="${#numbers.formatDecimal(budgetUsedPercentage, 1, 1)} + '%'">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <!-- Current budget -->
+                <div class="col-lg-6">
+                    <div class="card stat-card p-3">
+                        <h6><i class="bi bi-piggy-bank me-2 text-muted"></i>Current Budget</h6>
+                        <div th:if="${currentBudget == null}" class="text-muted">No budget created yet.</div>
+                        <div th:if="${currentBudget != null}">
+                            <p class="mb-1"><strong th:text="${currentBudget.budgetName}">Budget</strong>
+                                (<span th:text="${currentBudget.financialYear}">FY</span>)</p>
+                            <p class="mb-1">Planned: Rs. <span th:text="${currentBudget.plannedAmount}">0</span></p>
+                            <p class="mb-1">Actual: Rs. <span th:text="${currentBudget.actualAmount}">0</span></p>
+                            <div class="progress" style="height: 18px;">
+                                <div class="progress-bar" role="progressbar"
+                                     th:style="'width: ' + ${budgetUsedPercentage} + '%'"
+                                     th:text="${#numbers.formatDecimal(budgetUsedPercentage, 1, 1)} + '%'">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent alerts -->
+                <div class="col-lg-6">
+                    <div class="card stat-card p-3">
+                        <h6><i class="bi bi-bell me-2 text-muted"></i>Recent Alerts</h6>
+                        <table class="table table-sm mb-0">
+                            <thead><tr><th>Time</th><th>Severity</th><th>Message</th></tr></thead>
+                            <tbody>
+                            <tr th:each="alert : ${recentAlerts}">
+                                <td th:text="${#temporals.format(alert.createdAt, 'dd-MM-yyyy HH:mm')}">-</td>
+                                <td><span class="badge"
+                                          th:classappend="${alert.severity == 'HIGH'} ? 'badge-alert-high' : 'badge-alert-medium'"
+                                          th:text="${alert.severity}">HIGH</span></td>
+                                <td th:text="${alert.message}">message</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(recentAlerts)}">
+                                <td colspan="3" class="text-muted">No alerts yet.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

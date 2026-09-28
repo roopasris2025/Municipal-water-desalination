@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('New Customer Invoice')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('invoices')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0">New Customer Invoice</h4>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/invoices/save}" th:object="${invoice}" method="post" class="card form-card border-0 p-4 p-md-5" style="max-width: 640px;">
+                <div class="mb-3">
+                    <label class="form-label">Invoice Number</label>
+                    <input type="text" class="form-control" th:field="*{invoiceNumber}" placeholder="INV-1001" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Customer</label>
+                    <select class="form-select" th:field="*{customer.id}">
+                        <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}">Authority</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Sales Order</label>
+                    <select class="form-select" th:field="*{salesOrder.id}">
+                        <option th:each="s : ${salesOrders}" th:value="${s.id}" th:text="${s.salesOrderNumber} + ' (Rs. ' + ${s.totalAmount} + ')'">SO</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{quantity}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Amount</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{amount}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Invoice Date</label>
+                    <input type="date" class="form-control" th:field="*{invoiceDate}">
+                </div>
+                                <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/invoices}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

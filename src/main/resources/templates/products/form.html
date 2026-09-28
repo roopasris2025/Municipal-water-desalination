@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Product Form')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('products')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0" th:text="${product.id == null} ? 'Add Product' : 'Edit Product'">Add</h4>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/products/save}" th:object="${product}" method="post" class="card form-card border-0 p-4 p-md-5" style="max-width: 640px;">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" class="form-control" th:field="*{productName}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Product Type</label>
+                    <select class="form-select" th:field="*{productType}">
+                        <option value="WATER">WATER (Potable Desalinated Water)</option>
+                        <option value="MINERAL">MINERAL (Industrial Grade Salt Byproduct)</option>
+                        <option value="MEMBRANE">MEMBRANE (RO Membrane Replacement)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Unit</label>
+                    <input type="text" class="form-control" th:field="*{unit}" placeholder="m3 / kg / piece">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{price}">
+                </div>
+                                <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/products}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Reports')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('reports')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0">Reports</h4>
+        </div>
+        <div class="p-4">
+            <div class="row g-3">
+                <!-- Operational Report -->
+                <div class="col-lg-4">
+                    <div class="card stat-card p-3 h-100">
+                        <h6>Operational Report</h6>
+                        <table class="table table-sm mb-0">
+                            <tr><td>Total Water Produced</td><td th:text="${#numbers.formatDecimal(totalWaterProduced,1,2)} + ' m3'">-</td></tr>
+                            <tr><td>Total Water Sold</td><td th:text="${#numbers.formatDecimal(totalWaterSold,1,2)} + ' m3'">-</td></tr>
+                            <tr><td>Total Mineral Recovered</td><td th:text="${#numbers.formatDecimal(totalMineralRecovered,1,2)} + ' kg'">-</td></tr>
+                            <tr><td>Number of RO Trains</td><td th:text="${numberOfTrains}">-</td></tr>
+                            <tr><td>Number of Alerts</td><td th:text="${numberOfAlerts}">-</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Profit & Loss -->
+                <div class="col-lg-4">
+                    <div class="card stat-card p-3 h-100">
+                        <h6>Profit &amp; Loss</h6>
+                        <table class="table table-sm mb-0">
+                            <tr><td>Total Revenue</td><td class="text-success" th:text="'Rs. ' + ${#numbers.formatDecimal(totalRevenue,1,2)}">-</td></tr>
+                            <tr><td>Total Expenses</td><td class="text-danger" th:text="'Rs. ' + ${#numbers.formatDecimal(totalExpenses,1,2)}">-</td></tr>
+                            <tr><td><strong>Net Profit</strong></td><td><strong th:text="'Rs. ' + ${#numbers.formatDecimal(netProfit,1,2)}">-</strong></td></tr>
+                        </table>
+                        <p class="text-muted small mb-0">Revenue = payments received on Customer Invoices (water &amp; mineral sales).<br>
+                            Expenses = payments made on Vendor Bills (electricity &amp; membrane purchases).</p>
+                    </div>
+                </div>
+
+                <!-- Budget Report -->
+                <div class="col-lg-4">
+                    <div class="card stat-card p-3 h-100">
+                        <h6>Budget Report</h6>
+                        <div th:if="${latestBudget == null}" class="text-muted">No budget created yet.</div>
+                        <table th:if="${latestBudget != null}" class="table table-sm mb-0">
+                            <tr><td>Budget</td><td th:text="${latestBudget.budgetName} + ' (' + ${latestBudget.financialYear} + ')'">-</td></tr>
+                            <tr><td>Planned Amount</td><td th:text="'Rs. ' + ${latestBudget.plannedAmount}">-</td></tr>
+                            <tr><td>Actual Amount</td><td th:text="'Rs. ' + ${latestBudget.actualAmount}">-</td></tr>
+                            <tr><td>Remaining Amount</td><td th:text="'Rs. ' + ${remainingAmount}">-</td></tr>
+                            <tr><td>Budget Used %</td><td th:text="${#numbers.formatDecimal(usedPercentage,1,1)} + '%'">-</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

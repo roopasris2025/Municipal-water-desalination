@@ -1,0 +1,59 @@
+<div th:fragment="sidebar(active)" class="sidebar">
+    <div class="sidebar-brand">
+        <span class="sidebar-brand-icon"><i class="bi bi-droplet-fill"></i></span>
+        <span class="sidebar-brand-text">Desal<strong>MS</strong></span>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a class="nav-link" th:classappend="${active == 'dashboard'} ? 'active'" th:href="@{/dashboard}">
+            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+        </a>
+
+        <div class="nav-section">Master Data</div>
+        <a class="nav-link" th:classappend="${active == 'authorities'} ? 'active'" th:href="@{/authorities}">
+            <i class="bi bi-bank"></i><span>Water Authorities</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'suppliers'} ? 'active'" th:href="@{/suppliers}">
+            <i class="bi bi-truck"></i><span>Suppliers</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'buyers'} ? 'active'" th:href="@{/buyers}">
+            <i class="bi bi-gem"></i><span>Mineral Buyers</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'products'} ? 'active'" th:href="@{/products}">
+            <i class="bi bi-box-seam"></i><span>Products</span>
+        </a>
+
+        <div class="nav-section">Operations</div>
+        <a class="nav-link" th:classappend="${active == 'trains'} ? 'active'" th:href="@{/trains}">
+            <i class="bi bi-diagram-3"></i><span>RO Trains</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'telemetry'} ? 'active'" th:href="@{/telemetry}">
+            <i class="bi bi-activity"></i><span>Telemetry</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'inventory'} ? 'active'" th:href="@{/inventory}">
+            <i class="bi bi-boxes"></i><span>Inventory</span>
+        </a>
+
+        <div class="nav-section">Transactions</div>
+        <a class="nav-link" th:classappend="${active == 'purchase-orders'} ? 'active'" th:href="@{/purchase-orders}">
+            <i class="bi bi-cart-plus"></i><span>Purchase Orders</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'vendor-bills'} ? 'active'" th:href="@{/vendor-bills}">
+            <i class="bi bi-receipt"></i><span>Vendor Bills</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'sales-orders'} ? 'active'" th:href="@{/sales-orders}">
+            <i class="bi bi-cart-check"></i><span>Sales Orders</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'invoices'} ? 'active'" th:href="@{/invoices}">
+            <i class="bi bi-file-earmark-text"></i><span>Customer Invoices</span>
+        </a>
+
+        <div class="nav-section">Finance</div>
+        <a class="nav-link" th:classappend="${active == 'budget'} ? 'active'" th:href="@{/budget}">
+            <i class="bi bi-piggy-bank"></i><span>Budget</span>
+        </a>
+        <a class="nav-link" th:classappend="${active == 'reports'} ? 'active'" th:href="@{/reports}">
+            <i class="bi bi-bar-chart-line"></i><span>Reports</span>
+        </a>
+    </nav>
+</div>

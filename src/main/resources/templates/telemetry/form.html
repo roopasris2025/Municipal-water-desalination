@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Submit Telemetry')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('telemetry')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0">Submit Telemetry Reading</h4>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/telemetry/save}" th:object="${telemetry}" method="post" class="card form-card border-0 p-4 p-md-5" style="max-width: 640px;">
+                <div class="mb-3">
+                    <label class="form-label">RO Train</label>
+                    <select class="form-select" th:field="*{roTrain.id}">
+                        <option th:each="tr : ${trains}" th:value="${tr.id}" th:text="${tr.trainName} + ' (limit ' + ${tr.membranePressureLimit} + ' bar)'">Train</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" th:field="*{recordDate}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Intake Pressure (bar)</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{intakePressure}" placeholder="55">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Salinity (ppm)</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{salinity}" placeholder="35000">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Water Produced (m3)</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{waterProduced}" placeholder="4500">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mineral Recovered (kg)</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{mineralRecovered}" placeholder="500">
+                </div>
+                                <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                    <button type="submit" class="btn btn-primary px-4">Submit</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/telemetry}">Cancel</a>
+                </div>
+            </form>
+            <p class="text-muted mt-2" style="max-width:600px;">
+                Tip: enter a pressure value higher than the selected train's pressure limit
+                (e.g. 72 when the limit is 60) to see a HIGH PRESSURE alert appear on the Dashboard.
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

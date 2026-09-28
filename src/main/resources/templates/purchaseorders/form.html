@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Purchase Order Form')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('purchase-orders')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3">
+            <h4 class="mb-0" th:text="${po.id == null} ? 'New Purchase Order' : 'Edit Purchase Order'">New PO</h4>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/purchase-orders/save}" th:object="${po}" method="post" class="card form-card border-0 p-4 p-md-5" style="max-width: 640px;">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label class="form-label">PO Number</label>
+                    <input type="text" class="form-control" th:field="*{poNumber}" placeholder="PO-1001" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Supplier</label>
+                    <select class="form-select" th:field="*{supplier.id}">
+                        <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.supplierName}">Supplier</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Product</label>
+                    <select class="form-select" th:field="*{product.id}">
+                        <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.productName}">Product</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{quantity}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Unit Price</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{unitPrice}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" th:field="*{status}">
+                        <option value="CREATED">CREATED</option>
+                        <option value="RECEIVED">RECEIVED</option>
+                        <option value="PAID">PAID</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" th:field="*{orderDate}">
+                </div>
+                <p class="text-muted">Total Amount is calculated automatically as Quantity &times; Unit Price.</p>
+                                <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/purchase-orders}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Customer Invoices')"></head>
+<body>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar('invoices')"></div>
+    <div class="flex-grow-1">
+        <div class="topbar p-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Customer Invoices</h4>
+            <a class="btn btn-primary btn-sm" th:href="@{/invoices/new}"><i class="bi bi-plus-lg me-1"></i>New Invoice</a>
+        </div>
+        <div class="p-4">
+            <div class="card content-card border-0">
+                <div class="table-responsive">
+                    <table class="table table-modern mb-0">
+                <thead class="table-light">
+                <tr><th>ID</th><th>Invoice Number</th><th>Customer</th><th>Sales Order</th><th>Qty</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="i : ${invoiceList}">
+                    <td th:text="${i.id}">1</td>
+                    <td th:text="${i.invoiceNumber}">INV-001</td>
+                    <td th:text="${i.customer?.name}">Authority</td>
+                    <td th:text="${i.salesOrder?.salesOrderNumber}">SO-001</td>
+                    <td th:text="${i.quantity}">4000</td>
+                    <td th:text="${i.amount}">200000</td>
+                    <td th:text="${i.invoiceDate}">2026-01-01</td>
+                    <td>
+                        <span class="badge" th:classappend="${i.paymentStatus?.name() == 'PAID'} ? 'bg-success' : 'bg-warning'" th:text="${i.paymentStatus}">PENDING</span>
+                    </td>
+                    <td>
+                        <a th:if="${i.paymentStatus?.name() == 'PENDING'}" class="btn btn-sm btn-success" th:href="@{/invoices/pay/{id}(id=${i.id})}">Receive Payment</a>
+                        <a class="btn btn-sm btn-outline-danger" th:href="@{/invoices/delete/{id}(id=${i.id})}"
+                           onclick="return confirm('Delete this invoice?')">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
